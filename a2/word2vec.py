@@ -17,7 +17,7 @@ def sigmoid(x):
     """
 
     ### YOUR CODE HERE
-
+    s = 1 / (1 + np.exp(-x))
     ### END YOUR CODE
 
     return s
@@ -57,7 +57,13 @@ def naiveSoftmaxLossAndGradient(
     ### Please use the provided softmax function (imported earlier in this file)
     ### This numerically stable implementation helps you avoid issues pertaining
     ### to integer overflow. 
+    y_hat = softmax(np.dot(centerWordVec, outsideVectors.T))
+    delta = y_hat.copy()
+    delta[outsideWordIdx] -= 1
 
+    loss = -np.log(y_hat)[outsideWordIdx]
+    gradCenterVec = np.dot(delta, outsideVectors)
+    gradOutsideVecs = np.dot(delta[:, np.newaxis], centerWordVec[np.newaxis, :])
 
     ### END YOUR CODE
 
@@ -77,9 +83,9 @@ def getNegativeSamples(outsideWordIdx, dataset, K):
 
 
 def negSamplingLossAndGradient(
-    centerWordVec,
-    outsideWordIdx,
-    outsideVectors,
+    predicted,
+    target,
+    outputVectors,
     dataset,
     K=10
 ):
@@ -99,59 +105,72 @@ def negSamplingLossAndGradient(
 
     # Negative sampling of words is done for you. Do not modify this if you
     # wish to match the autograder and receive points!
-    negSampleWordIndices = getNegativeSamples(outsideWordIdx, dataset, K)
-    indices = [outsideWordIdx] + negSampleWordIndices
+    indices = [target]
+    indices.extend(getNegativeSamples(target, dataset, K))
 
     ### YOUR CODE HERE
 
     ### Please use your implementation of sigmoid in here.
+    grad = np.zeros(outputVectors.shape)
+    gradPred = np.zeros(predicted.shape)
+    cost = 0
+    z = sigmoid(np.dot(outputVectors[target], predicted))
 
+    cost -= np.log(z)
+    grad[target] += predicted * (z - 1.0)
+    gradPred += outputVectors[target] * (z - 1.0)
+
+    for k in range(K):
+        samp = indices[k + 1]
+        z = sigmoid(np.dot(outputVectors[samp], predicted))
+        cost -= np.log(1.0 - z)
+        grad[samp] += predicted * z
+        gradPred += outputVectors[samp] * z
 
     ### END YOUR CODE
 
-    return loss, gradCenterVec, gradOutsideVecs
+    return cost, grad, gradPred
 
 
-def skipgram(currentCenterWord, windowSize, outsideWords, word2Ind,
-             centerWordVectors, outsideVectors, dataset,
-             word2vecLossAndGradient=naiveSoftmaxLossAndGradient):
+def skipgram(currentWord, C, contextWords, tokens, inputVectors, outputVectors,
+             dataset, word2vecCostAndGradient=naiveSoftmaxLossAndGradient):
     """ Skip-gram model in word2vec
-
     Implement the skip-gram model in this function.
-
     Arguments:
-    currentCenterWord -- a string of the current center word
-    windowSize -- integer, context window size
-    outsideWords -- list of no more than 2*windowSize strings, the outside words
-    word2Ind -- a dictionary that maps words to their indices in
+    currrentWord -- a string of the current center word
+    C -- integer, context size
+    contextWords -- list of no more than 2*C strings, the context words
+    tokens -- a dictionary that maps words to their indices in
               the word vector list
-    centerWordVectors -- center word vectors (as rows) for all words in vocab
-                        (V in pdf handout)
-    outsideVectors -- outside word vectors (as rows) for all words in vocab
-                    (U in pdf handout)
-    word2vecLossAndGradient -- the loss and gradient function for
-                               a prediction vector given the outsideWordIdx
+    inputVectors -- "input" word vectors (as rows) for all tokens
+    outputVectors -- "output" word vectors (as rows) for all tokens
+    word2vecCostAndGradient -- the cost and gradient function for
+                               a prediction vector given the target
                                word vectors, could be one of the two
-                               loss functions you implemented above.
-
+                               cost functions you implemented above.
     Return:
-    loss -- the loss function value for the skip-gram model
-            (J in the pdf handout)
-    gradCenterVecs -- the gradient with respect to the center word vectors
-            (dJ / dV in the pdf handout)
-    gradOutsideVectors -- the gradient with respect to the outside word vectors
-                        (dJ / dU in the pdf handout)
+    cost -- the cost function value for the skip-gram model
+    grad -- the gradient with respect to the word vectors
     """
 
-    loss = 0.0
-    gradCenterVecs = np.zeros(centerWordVectors.shape)
-    gradOutsideVectors = np.zeros(outsideVectors.shape)
+    cost = 0.0
+    gradIn = np.zeros(inputVectors.shape)
+    gradOut = np.zeros(outputVectors.shape)
 
     ### YOUR CODE HERE
+    cword_idx = tokens[currentWord]
+    vhat = inputVectors[cword_idx]
 
+    for j in contextWords:
+        u_idx = tokens[j]
+        c_cost, c_grad_in, c_grad_out = \
+            word2vecCostAndGradient(vhat, u_idx, outputVectors, dataset)
+        cost += c_cost
+        gradIn[cword_idx] += c_grad_in
+        gradOut += c_grad_out
     ### END YOUR CODE
 
-    return loss, gradCenterVecs, gradOutsideVectors
+    return cost, gradIn, gradOut
 
 #############################################
 # Testing functions below. DO NOT MODIFY!   #

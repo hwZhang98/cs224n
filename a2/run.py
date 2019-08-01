@@ -20,10 +20,10 @@ assert sys.version_info[1] >= 5
 random.seed(314)
 dataset = StanfordSentiment()
 tokens = dataset.tokens()
-nWords = len(tokens)
+nWords = len(tokens)   # 词向量的个数
 
 # We are going to train 10-dimensional vectors for this assignment
-dimVectors = 10
+dimVectors = 10         # 向量维度
 
 # Context size
 C = 5
@@ -33,14 +33,14 @@ random.seed(31415)
 np.random.seed(9265)
 
 startTime=time.time()
-wordVectors = np.concatenate(
+wordVectors = np.concatenate(               # 应该是V和U 的拼接，一个中心词向量矩阵，一个上下文矩阵
     ((np.random.rand(nWords, dimVectors) - 0.5) /
-       dimVectors, np.zeros((nWords, dimVectors))),
+     dimVectors, np.zeros((nWords, dimVectors))),
     axis=0)
 wordVectors = sgd(
     lambda vec: word2vec_sgd_wrapper(skipgram, tokens, vec, dataset, C,
         negSamplingLossAndGradient),
-    wordVectors, 0.3, 40000, None, True, PRINT_EVERY=10)
+    wordVectors, 0.3, 40000, None, False, PRINT_EVERY=10)
 # Note that normalization is not called here. This is not a bug,
 # normalizing during training loses the notion of length.
 

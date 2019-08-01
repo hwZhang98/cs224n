@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="02d70854-3ae6-4d48-b9e5-df052bfcea36" name="Default Changelist" comment="" />
+    <list default="true" id="02d70854-3ae6-4d48-b9e5-df052bfcea36" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/a2/run.py" beforeDir="false" afterPath="$PROJECT_DIR$/a2/run.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/a2/sgd.py" beforeDir="false" afterPath="$PROJECT_DIR$/a2/sgd.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/a2/word2vec.py" beforeDir="false" afterPath="$PROJECT_DIR$/a2/word2vec.py" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -11,43 +15,20 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/a2/run.py">
+        <entry file="file://$PROJECT_DIR$/../暑期学习/第五次作业/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="547">
-              <caret line="34" selection-start-line="34" selection-end-line="34" />
-              <folding>
-                <element signature="e#23#36#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/a2/utils/__init__.py">
-          <provider selected="true" editor-type-id="text-editor" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/a2/utils/treebank.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="120">
-              <caret line="7" selection-start-line="7" selection-end-line="7" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/a2/sgd.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state>
-              <folding>
-                <element signature="e#107#120#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="630">
+              <caret line="81" column="36" lean-forward="true" selection-start-line="81" selection-start-column="36" selection-end-line="81" selection-end-column="36" />
             </state>
           </provider>
         </entry>
       </file>
     </leaf>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>post</find>
+    </findStrings>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -55,8 +36,10 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/a2/run.py" />
         <option value="$PROJECT_DIR$/a2/utils/__init__.py" />
+        <option value="$PROJECT_DIR$/a2/run.py" />
+        <option value="$PROJECT_DIR$/a2/sgd.py" />
+        <option value="$PROJECT_DIR$/a2/word2vec.py" />
       </list>
     </option>
   </component>
@@ -73,7 +56,7 @@
   </component>
   <component name="ProjectFrameBounds">
     <option name="x" value="7" />
-    <option name="width" value="1039" />
+    <option name="width" value="976" />
     <option name="height" value="1043" />
   </component>
   <component name="ProjectView">
@@ -112,7 +95,8 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/a2" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/a2/word2vec.py" />
     <property name="settings.editor.selected.configurable" value="PyConsoleConfigurable.Python Console" />
   </component>
   <component name="PyConsoleOptionsProvider">
@@ -136,7 +120,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Python.run">
     <configuration name="run" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="cs224n" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -158,9 +142,25 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="pytest for word2vec.test_word2vec" type="tests" factoryName="py.test" temporary="true" nameIsGenerated="true">
+      <module name="cs224n" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/a2" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="_new_keywords" value="&quot;&quot;" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;word2vec.test_word2vec&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <method v="2" />
+    </configuration>
     <recent_temporary>
       <list>
         <item itemvalue="Python.run" />
+        <item itemvalue="Python tests.pytest for word2vec.test_word2vec" />
       </list>
     </recent_temporary>
   </component>
@@ -177,8 +177,17 @@
     </task>
     <servers />
   </component>
+  <component name="TestHistory">
+    <history-entry file="pytest_for_word2vec_test_word2vec - 2019.08.01 at 13h 47m 57s.xml">
+      <configuration name="pytest for word2vec.test_word2vec" configurationId="tests" />
+    </history-entry>
+    <history-entry file="pytest_for_word2vec_test_word2vec - 2019.08.01 at 13h 48m 14s.xml">
+      <configuration name="pytest for word2vec.test_word2vec" configurationId="tests" />
+    </history-entry>
+  </component>
   <component name="ToolWindowManager">
-    <frame x="7" y="0" width="1039" height="1043" extended-state="0" />
+    <frame x="7" y="0" width="976" height="1043" extended-state="0" />
+    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" weight="0.24975026" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -186,7 +195,7 @@
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.32893288" />
-      <window_info active="true" anchor="bottom" id="Debug" order="3" visible="true" weight="0.6248625" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.26622662" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -203,9 +212,9 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/a2/run.py</url>
-          <line>34</line>
-          <option name="timeStamp" value="2" />
+          <url>file://$PROJECT_DIR$/a2/sgd.py</url>
+          <line>97</line>
+          <option name="timeStamp" value="3" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
@@ -228,35 +237,53 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/a2/word2vec.py">
+    <entry file="file://$PROJECT_DIR$/a2/utils/__init__.py">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/a2/utils/treebank.py">
+    <entry file="file://$PROJECT_DIR$/a2/run.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="7" selection-start-line="7" selection-end-line="7" />
+        <state relative-caret-position="-204">
+          <caret line="41" selection-start-line="41" selection-end-line="41" />
+          <folding>
+            <element signature="e#23#36#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/a2/word2vec.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-240">
+          <caret line="135" selection-start-line="135" selection-end-line="135" />
+          <folding>
+            <element signature="e#23#41#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/a2/sgd.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state>
+        <state relative-caret-position="176">
+          <caret line="88" selection-start-line="88" selection-end-line="88" />
           <folding>
             <element signature="e#107#120#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/a2/utils/__init__.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/a2/run.py">
+    <entry file="file://$PROJECT_DIR$/a2/utils/treebank.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="547">
-          <caret line="34" selection-start-line="34" selection-end-line="34" />
+        <state relative-caret-position="210">
+          <caret line="7" selection-start-line="7" selection-end-line="7" />
           <folding>
-            <element signature="e#23#36#0" expanded="true" />
+            <element signature="e#47#60#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../暑期学习/第五次作业/main.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="630">
+          <caret line="81" column="36" lean-forward="true" selection-start-line="81" selection-start-column="36" selection-end-line="81" selection-end-column="36" />
         </state>
       </provider>
     </entry>
