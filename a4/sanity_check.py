@@ -216,7 +216,7 @@ def main():
     # Create NMT Model
     model = NMT(
         embed_size=EMBED_SIZE,
-        hidden_size=HIDDEN_SIZE,
+        selfhidden_size=HIDDEN_SIZE,
         dropout_rate=DROPOUT_RATE,
         vocab=vocab)
 
