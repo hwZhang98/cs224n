@@ -116,7 +116,7 @@ def train(args: Dict):
     dev_data = list(zip(dev_data_src, dev_data_tgt))
 
     train_batch_size = int(args['--batch-size'])
-    clip_grad = float(args['--clip-grad'])
+    clip_grad = float(args['--clip-grad'])    # 梯度裁剪
     valid_niter = int(args['--valid-niter'])
     log_every = int(args['--log-every'])
     model_save_path = args['--save-to']
@@ -168,14 +168,14 @@ def train(args: Dict):
 
             loss.backward()
 
-            # clip gradient
+            # clip gradient    梯度裁剪
             grad_norm = torch.nn.utils.clip_grad_norm_(model.parameters(), clip_grad)
 
             optimizer.step()
 
             batch_losses_val = batch_loss.item()
-            report_loss += batch_losses_val
-            cum_loss += batch_losses_val
+            report_loss += batch_losses_val             # report 输出用
+            cum_loss += batch_losses_val                # cum 验证用
 
             tgt_words_num_to_predict = sum(len(s[1:]) for s in tgt_sents)  # omitting leading `<s>`
             report_tgt_words += tgt_words_num_to_predict
