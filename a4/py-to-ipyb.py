@@ -1,0 +1,13 @@
+import IPython.nbformat.current as nbf
+nb = nbf.read(open('run.py', 'r'), 'py')
+nbf.write(nb, open('run.ipynb', 'w'), 'ipynb')
+nb = nbf.read(open('model_embeddings.py', 'r'), 'py')
+nbf.write(nb, open('model_embeddings.ipynb', 'w'), 'ipynb')
+nb = nbf.read(open('nmt_model.py', 'r'), 'py')
+nbf.write(nb, open('nmt_model.ipynb', 'w'), 'ipynb')
+nb = nbf.read(open('sanity_check.py', 'r'), 'py')
+nbf.write(nb, open('sanity_check.ipynb', 'w'), 'ipynb')
+nb = nbf.read(open('utils.py', 'r'), 'py')
+nbf.write(nb, open('utils.ipynb', 'w'), 'ipynb')
+nb = nbf.read(open('vocab.py', 'r'), 'py')
+nbf.write(nb, open('vocab.ipynb', 'w'), 'ipynb')

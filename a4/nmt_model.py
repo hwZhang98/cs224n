@@ -19,7 +19,8 @@ from torch.nn.utils.rnn import pad_packed_sequence, pack_padded_sequence
 from model_embeddings import ModelEmbeddings
 
 Hypothesis = namedtuple('Hypothesis', ['value', 'score'])
-
+# 网址有PDF 原理，可对着原理看代码便于理解
+# https://github.com/zhanlaoban/CS224N-Stanford-Winter-2019/blob/master/Lecture%2007%20Vanishing%20Gradients%20and%20Fancy%20RNNs/Assignment%204/a4.pdf
 
 class NMT(nn.Module):
     """ Simple Neural Machine Translation Model:
@@ -73,13 +74,17 @@ class NMT(nn.Module):
         ###         https://pytorch.org/docs/stable/nn.html#torch.nn.Linear
         ###     Dropout Layer:
         ###         https://pytorch.org/docs/stable/nn.html#torch.nn.Dropout
-        self.encoder = nn.LSTM(input_size=embed_size, hidden_size=self.hidden_size, bias=True, bidirectional=True)
-        self.decode = nn.LSTMCell(input_size=embed_size + self.hidden_size, hidden_size=self.hidden_size, bias=True)
+        self.encoder = nn.LSTM(input_size=embed_size, hidden_size=self.hidden_size,
+                                bidirectional=True,dropout=self.dropout_rate)
+        self.decoder = nn.LSTMCell(input_size=embed_size + self.hidden_size, hidden_size=self.hidden_size)
+        # 编码器和解码器之间H,C的转换
         self.h_projection = nn.Linear(self.hidden_size * 2, self.hidden_size, bias=False)
         self.c_projection = nn.Linear(self.hidden_size * 2, self.hidden_size, bias=False)
-        # the follow layer maybe be used for dimensionality reduction
+        # 注意力
         self.att_projection = nn.Linear(self.hidden_size * 2, self.hidden_size, bias=False)
+        # 注意力与输出结合
         self.combined_output_projection = nn.Linear(self.hidden_size * 3, self.hidden_size, bias=False)
+
         self.target_vocab_projection = nn.Linear(self.hidden_size, self.model_embeddings.target.weight.shape[0],
                                                  bias=False)
         self.dropout = nn.Dropout(p=self.dropout_rate)
@@ -250,11 +255,11 @@ class NMT(nn.Module):
         ###         https://pytorch.org/docs/stable/torch.html#torch.stack
         enc_hiddens_proj = self.att_projection(enc_hiddens)
         Y = self.model_embeddings.target(target_padded)
-        Y_t = Y.split(dim=0)
-        for i in Y_t:
-            i = i.squeeze(dim=0)
-            Ybar_t = torch.cat((i, o_prev), dim=1)
-            dec_state, o_t, e_t = self.step(Ybar_t, dec_state, enc_hiddens, enc_hiddens_proj, enc_masks)
+        for Y_t in torch.split(Y, 1):  # 3
+            Y_t = torch.squeeze(Y_t)
+            Ybar_t = torch.cat((o_prev, Y_t), dim=1)
+            dec_state, o_t, e_t = self.step(Ybar_t, dec_state, enc_hiddens,
+                                            enc_hiddens_proj, enc_masks)
             combined_outputs.append(o_t)
             o_prev = o_t
         combined_outputs = torch.stack(combined_outputs, dim=0)
@@ -316,7 +321,7 @@ class NMT(nn.Module):
         ###         https://pytorch.org/docs/stable/torch.html#torch.squeeze
         dec_state = self.decoder(Ybar_t, dec_state)
         dec_hidden, dec_cell = dec_state
-        e_t = torch.bmm(dec_hidden.unsqueeze(dim=2),enc_hiddens_proj).squeeze(dim=2)
+        e_t = torch.squeeze(torch.bmm(enc_hiddens_proj, torch.unsqueeze(dec_hidden, 2)), 2)
         ### END YOUR CODE
 
         # Set e_t to -inf where enc_masks has 1
@@ -351,7 +356,7 @@ class NMT(nn.Module):
         ###     Tanh:
         ###         https://pytorch.org/docs/stable/torch.html#torch.tanh
         alpha_t = nn.functional.softmax(e_t,dim=1)
-        a_t = torch.bmm(alpha_t.unsqueeze(dim=1),enc_hiddens).squeeze(dim=1)
+        a_t = torch.squeeze(torch.bmm(torch.unsqueeze(alpha_t, 1), enc_hiddens),1)  # context vector
         U_t = torch.cat((dec_hidden,a_t),dim=1)
         V_t = self.combined_output_projection(U_t)
         O_t = self.dropout(torch.tanh(V_t))
