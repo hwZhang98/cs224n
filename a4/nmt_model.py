@@ -29,7 +29,7 @@ class NMT(nn.Module):
         - Global Attention Model (Luong, et al. 2015)
     """
 
-    def __init__(self, embed_size, selfhidden_size, vocab, dropout_rate=0.2):
+    def __init__(self, embed_size, hidden_size, vocab, dropout_rate=0.2):
         """ Init NMT Model.
 
         @param embed_size (int): Embedding size (dimensionality)
@@ -40,7 +40,7 @@ class NMT(nn.Module):
         """
         super(NMT, self).__init__()
         self.model_embeddings = ModelEmbeddings(embed_size, vocab)
-        self.hidden_size = selfhidden_size
+        self.hidden_size = hidden_size
         self.dropout_rate = dropout_rate
         self.vocab = vocab
 
@@ -491,7 +491,7 @@ class NMT(nn.Module):
         return model
 
     def save(self, path: str):
-        """ Save the odel to a file.
+        """ Save the model to a file.
         @param path (str): path to the model
         """
         print('save model parameters to [%s]' % path, file=sys.stderr)

@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-#python run.py train --train-src=./en_es_data/train.es --train-tgt=./en_es_data/train.en --dev-src=./en_es_data/dev.es --dev-tgt=./en_es_data/dev.en --vocab=vocab.json
-#
+#python run.py train --train-src=./en_es_data/train.es --train-tgt=./en_es_data/train.en --dev-src=./en_es_data/dev.es --dev-tgt=./en_es_data/dev.en --vocab=vocab.json --cuda
 """
 CS224N 2018-19: Homework 4
 run.py: Run Script for Simple NMT Model
@@ -121,17 +120,20 @@ def train(args: Dict):
     valid_niter = int(args['--valid-niter'])
     log_every = int(args['--log-every'])
     model_save_path = args['--save-to']
-
     vocab = Vocab.load(args['--vocab'])
 
-    model = NMT(embed_size=int(args['--embed-size']),
+    i = 1
+    if i:
+        model = NMT.load(args['--save-to'])
+    else:
+        model = NMT(embed_size=int(args['--embed-size']),
                 selfhidden_size=int(args['--hidden-size']),
                 dropout_rate=float(args['--dropout']),
                 vocab=vocab)
     model.train()
 
     uniform_init = float(args['--uniform-init'])
-    if np.abs(uniform_init) > 0.:
+    if np.abs(uniform_init) > 0. and i != 1:
         print('uniformly initialize parameters [-%f, +%f]' % (uniform_init, uniform_init), file=sys.stderr)
         for p in model.parameters():
             p.data.uniform_(-uniform_init, uniform_init)
@@ -145,7 +147,8 @@ def train(args: Dict):
     model = model.to(device)
 
     optimizer = torch.optim.Adam(model.parameters(), lr=float(args['--lr']))
-
+    if i:
+        optimizer.load_state_dict(torch.load(args['--save-to']+'.optim'))
     num_trial = 0
     train_iter = patience = cum_loss = report_loss = cum_tgt_words = report_tgt_words = 0
     cum_examples = report_examples = epoch = valid_num = 0
