@@ -122,12 +122,12 @@ def train(args: Dict):
     model_save_path = args['--save-to']
     vocab = Vocab.load(args['--vocab'])
 
-    i = 1
+    i = 0
     if i:
         model = NMT.load(args['--save-to'])
     else:
         model = NMT(embed_size=int(args['--embed-size']),
-                selfhidden_size=int(args['--hidden-size']),
+                hidden_size=int(args['--hidden-size']),
                 dropout_rate=float(args['--dropout']),
                 vocab=vocab)
     model.train()
@@ -312,7 +312,6 @@ def beam_search(model: NMT, test_data_src: List[List[str]], beam_size: int, max_
     with torch.no_grad():
         for src_sent in tqdm(test_data_src, desc='Decoding', file=sys.stdout):
             example_hyps = model.beam_search(src_sent, beam_size=beam_size, max_decoding_time_step=max_decoding_time_step)
-
             hypotheses.append(example_hyps)
 
     if was_training: model.train(was_training)

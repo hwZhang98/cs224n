@@ -139,7 +139,7 @@ class VocabEntry(object):
         """
         vocab_entry = VocabEntry()
         word_freq = Counter(chain(*corpus))
-        valid_words = [w for w, v in word_freq.items() if v >= freq_cutoff]
+        valid_words = [w for w, v in word_freq.items() if v >= freq_cutoff] #去掉生僻词，出现次数少于两次
         print('number of word types: {}, number of word types w/ frequency >= {}: {}'
               .format(len(word_freq), freq_cutoff, len(valid_words)))
         top_k_words = sorted(valid_words, key=lambda w: word_freq[w], reverse=True)[:size]
