@@ -266,7 +266,7 @@ def train(args: Dict):
 
                 if epoch == int(args['max_epoch']):
                     print('reached maximum number of epochs!', file=sys.stderr)
-                    exit(0)
+                    return None
     writer.close()
 
 
