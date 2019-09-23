@@ -331,7 +331,7 @@ def beam_search(model: NMT, test_data_src: List[List[str]], beam_size: int, max_
 
 class HyperParameter:
     def __init__(self,
-                 mode='multi_train',              # 更改模式
+                 mode='test',              # 更改模式
                  help=False,
                  cuda=True,
                  load_model=False,
@@ -343,14 +343,14 @@ class HyperParameter:
                  seed=0,
                  batch_size=32,
                  embed_size=256,
-                 hidden_size=256,
+                 hidden_size=512,
                  clip_grad=5.0,
                  log_every=10,
                  max_epoch=30,
                  input_feed=None,
                  patience=5,
                  max_num_trial=5,
-                 lr_decay=0.5,
+                 lr_decay=0.9,
                  beam_size=5,
                  sample_size=5,
                  lr=0.001,
@@ -383,9 +383,8 @@ def main():
     args = c.get_parameter_dict()           # 只能获取默认值，没办法获取赋值
     print(args)
     # Check pytorch version
-    assert (
-                torch.__version__ == "1.2.0"), "Please update your installation of PyTorch. You have {} and you should have version 1.2.0".format(
-        torch.__version__)
+    assert (torch.__version__ == "1.2.0"), "Please update your installation of PyTorch. " \
+                                           "You have {} and you should have version 1.2.0".format(torch.__version__)
 
     # seed the random number generators
     seed = int(args['seed'])
